@@ -1,12 +1,17 @@
-package conta.model;
+package conta.model; 
 
-public abstract class Conta {
+public abstract class Conta { //paciente
 
 	private int numero;
 	private int agencia;
 	private int tipo;
 	private String titular;
 	private float saldo;
+	
+	//nome
+	//idade
+	//paciente
+	
 
 	public Conta(int numero, int agencia, int tipo, String titular, float saldo) {
 		this.numero = numero;
