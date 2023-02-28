@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import conta.model.Conta;
 import conta.repository.ContaRepository;
 
-public class ContaController implements ContaRepository { // exame
+public class ContaController implements ContaRepository { 
 
 	private ArrayList<Conta> listaContas = new ArrayList<Conta>();
 
@@ -59,20 +59,45 @@ public class ContaController implements ContaRepository { // exame
 
 	@Override
 	public void sacar(int numero, float valor) {
-		// TODO Auto-generated method stub
+		var buscaConta = buscarNaCollection(numero);
 
+		if (buscaConta != null) {
+
+			if (listaContas.get(listaContas.indexOf(buscaConta)).sacar(valor) == true)
+				;
+			System.out.println("\nO Saque na Conta número: " + numero + " foi efetuado com sucesso!");
+		} else
+			System.out.println("\nA Conta numero: " + numero + " não foi encontrado!");
 	}
 
 	@Override
 	public void depositar(int numero, float valor) {
-		// TODO Auto-generated method stub
+		var buscarConta = buscarNaCollection(numero);
+
+		if (buscarConta != null) {
+			var indiceConta = listaContas.indexOf(buscarConta);
+			listaContas.get(indiceConta).depositar(valor);
+			System.out.println("\nO Depósito na Conta número: " + numero + " foi efetuado com sucesso!");
+		} else {
+			System.out.println(
+					"\nA Conta numero: " + numero + " não foi encontrada ou a Conta destino não é uma Conta Corrente!");
+		}
 
 	}
 
 	@Override
 	public void transferir(int numeroOrigem, int numeroDestino, float valor) {
-		// TODO Auto-generated method stub
-
+		var buscarContaOrigem = buscarNaCollection(numeroOrigem);
+		var buscarContaDestino = buscarNaCollection(numeroDestino);
+		
+		if (buscarContaOrigem != null && buscarContaDestino != null) {
+			if(listaContas.get(listaContas.indexOf(buscarContaOrigem)).sacar(valor) == true) {
+				listaContas.get(listaContas.indexOf(buscarContaDestino)).depositar(valor);
+				System.out.println("\nA Tranferência foi efetuada com sucesso!");
+			}
+		}else {
+			System.out.println("\nA Conta de Origem e/ou a Conta de Destino não foram encontradas!");
+		}
 	}
 
 	public int gerarNumero() {
@@ -97,4 +122,5 @@ public class ContaController implements ContaRepository { // exame
 		}
 		return 0;
 	}
+
 }
